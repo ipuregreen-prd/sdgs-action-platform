@@ -4,8 +4,9 @@ import json
 import base64
 import time
 import secrets
+import os
 
-SECRET_KEY = "sdgs-fgu-climate-action-super-secret-key-2026"
+SECRET_KEY = os.getenv("SECRET_KEY", "sdgs-fgu-climate-action-super-secret-key-2026")
 
 def hash_password(password: str) -> str:
     salt = "fgu_sdgs_salt_2026"

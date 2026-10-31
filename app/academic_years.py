@@ -13,8 +13,8 @@ from app.year_scope import current_year_id, initialize_scope, table_name, MODULE
 from starlette.concurrency import run_in_threadpool
 
 MODULES = {
-    "matching": "https://sdgs-matching-game.vercel.app",
-    "attendance": "https://sdgs-attendance-record.vercel.app",
+    "matching": "https://sdgs-matching-game-prd.vercel.app",
+    "attendance": "https://sdgs-attendance-record-prd.vercel.app",
 }
 ROSTER_FIELDS = ("name", "email_backup", "phone", "unit_code", "unit_name")
 _REGISTRY_READY = set()

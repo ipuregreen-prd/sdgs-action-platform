@@ -42,7 +42,7 @@ function updateAcademicYearUI(user) {
   if (!year) return;
   localStorage.setItem('sdgs_academic_year_id', year.id);
   document.getElementById('adminAcademicYear').value = year.id;
-  for (const link of document.querySelectorAll('a[href^="https://sdgs-matching-game.vercel.app"],a[data-module="attendance"],a[href^="/tools/laba"]')) {
+  for (const link of document.querySelectorAll('a[href^="https://sdgs-matching-game-prd.vercel.app"],a[data-module="attendance"],a[href^="/tools/laba"]')) {
     const url = new URL(link.href);
     url.searchParams.set('academic_year_id', year.id);
     link.href = url.href;

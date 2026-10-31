@@ -6,7 +6,7 @@ from fastapi import Depends, HTTPException, Request, Response
 from fastapi.responses import HTMLResponse
 from starlette.concurrency import run_in_threadpool
 
-ORIGIN = "https://sdgs-attendance-record.vercel.app"
+ORIGIN = "https://sdgs-attendance-record-prd.vercel.app"
 PREFIX = "/attendance-admin"
 COOKIE = "attendance_admin_session"
 ROUTES = {

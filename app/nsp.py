@@ -231,7 +231,7 @@ def add_makeup_counts(rows, request):
     if not rows:
         return rows
     try:
-        response = requests.get("https://sdgs-attendance-record.vercel.app/api/nsp/course-completions", headers={"Authorization": request.headers.get("authorization", "")}, timeout=(5, 20))
+        response = requests.get("https://sdgs-attendance-record-prd.vercel.app/api/nsp/course-completions", headers={"Authorization": request.headers.get("authorization", "")}, timeout=(5, 20))
         response.raise_for_status()
         catalog = response.json()
     except (requests.RequestException, ValueError):
@@ -256,7 +256,7 @@ def completion_record(conn, course, user):
 
 def sync_makeup(request, course_id):
     try:
-        response = requests.post("https://sdgs-attendance-record.vercel.app/api/nsp/complete",
+        response = requests.post("https://sdgs-attendance-record-prd.vercel.app/api/nsp/complete",
             headers={"Authorization": request.headers.get("authorization", ""), "X-Academic-Year": str(current_year_id.get())},
             json={"course_id": course_id}, timeout=(5, 20))
         response.raise_for_status()
@@ -278,7 +278,7 @@ def install_nsp(app, require_user, require_admin):
     def catalog(request: Request, user=Depends(require_admin)):
         # The attendance module verifies the same token and selected academic year.
         try:
-            response = requests.get("https://sdgs-attendance-record.vercel.app/api/admin/courses/catalog", headers={"Authorization": request.headers.get("authorization", "")}, timeout=(5, 20))
+            response = requests.get("https://sdgs-attendance-record-prd.vercel.app/api/admin/courses/catalog", headers={"Authorization": request.headers.get("authorization", "")}, timeout=(5, 20))
             response.raise_for_status()
             return response.json()
         except (requests.RequestException, ValueError) as error:

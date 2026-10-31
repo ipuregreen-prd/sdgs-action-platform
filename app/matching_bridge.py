@@ -3,7 +3,7 @@ import re
 import requests
 from fastapi import HTTPException, Response
 
-MATCHING_ORIGIN = "https://sdgs-matching-game.vercel.app"
+MATCHING_ORIGIN = "https://sdgs-matching-game-prd.vercel.app"
 ALLOWED_ROUTES = {
     "GET": r"(?:stats|records|targets|settings|export/csv|goals)",
     "PUT": r"(?:targets/\d+|settings/[a-zA-Z0-9_]+)",

@@ -48,7 +48,7 @@ class AttendanceBridgeTests(unittest.TestCase):
             result = self.client.get('/attendance-admin/static/css/responsive.css?v=20261027_rwd')
         self.assertEqual(result.status_code, 200)
         self.assertIn('display:grid', result.text)
-        self.assertEqual(upstream.call_args.args[1], 'https://sdgs-attendance-record.vercel.app/static/css/responsive.css')
+        self.assertEqual(upstream.call_args.args[1], 'https://sdgs-attendance-record-prd.vercel.app/static/css/responsive.css')
 
     def test_embedded_navigation_fetches_and_styles_stay_in_the_authenticated_gateway(self):
         self.start()
@@ -61,7 +61,7 @@ class AttendanceBridgeTests(unittest.TestCase):
         self.assertIn('href="/attendance-admin/static/css/attendance.css"', result.text)
         self.assertIn('fetch(`/attendance-admin/api/admin/courses/${id}`)', result.text)
         self.assertIn("location.replace('/attendance-admin/admin')", result.text)
-        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record.vercel.app/admin")
+        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record-prd.vercel.app/admin")
         self.assertEqual(upstream.call_args.kwargs["headers"]["Authorization"], "Bearer " + self.token)
         self.assertNotIn(self.token, result.text)
         self.assertEqual(result.headers["cache-control"], "no-store")
@@ -77,7 +77,7 @@ class AttendanceBridgeTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn("HttpOnly", result.headers["set-cookie"])
         self.assertIn('/attendance-admin/static/css/attendance.css', result.text)
-        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record.vercel.app/admin/students/433/dashboard")
+        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record-prd.vercel.app/admin/students/433/dashboard")
         self.assertEqual(upstream.call_args.kwargs["headers"]["Authorization"], "Bearer " + self.token)
         response.status_code = 404
         with patch("app.attendance_bridge.requests.request", return_value=response):
@@ -91,7 +91,7 @@ class AttendanceBridgeTests(unittest.TestCase):
             page = self.client.get(path, headers=self.headers)
             self.assertEqual(page.status_code,200)
             self.assertIn('/attendance-admin/admin/students/433/backfill',page.text)
-            self.assertEqual(upstream.call_args.args[1], 'https://sdgs-attendance-record.vercel.app/admin/students/433/backfill')
+            self.assertEqual(upstream.call_args.args[1], 'https://sdgs-attendance-record-prd.vercel.app/admin/students/433/backfill')
         with patch("app.attendance_bridge.requests.request", return_value=response):
             self.assertEqual(self.client.get('/attendance-admin/admin/students/433/backfill').status_code,200)
 
@@ -118,7 +118,7 @@ class AttendanceBridgeTests(unittest.TestCase):
         with patch("app.attendance_bridge.requests.request", return_value=response):
             result = self.client.get("/attendance-admin/static/css/attendance.css")
         self.assertEqual(result.status_code, 200)
-        self.assertIn('https://sdgs-attendance-record.vercel.app/static/images/course-registration.png', result.text)
+        self.assertIn('https://sdgs-attendance-record-prd.vercel.app/static/images/course-registration.png', result.text)
 
     def test_import_keeps_the_multipart_body_and_blocks_cross_site_writes(self):
         self.start()
@@ -194,7 +194,7 @@ class AttendanceBridgeTests(unittest.TestCase):
         with patch("app.attendance_bridge.requests.request", return_value=response) as upstream:
             result = self.client.get(path, headers=self.headers)
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record.vercel.app/admin/courses/17/pathdemy")
+        self.assertEqual(upstream.call_args.args[1], "https://sdgs-attendance-record-prd.vercel.app/admin/courses/17/pathdemy")
         self.assertEqual(upstream.call_args.kwargs["headers"]["Authorization"], "Bearer " + self.token)
         self.assertIn("HttpOnly", result.headers["set-cookie"])
         self.assertIn('/attendance-admin/api/admin/courses/17/pathdemy/import', result.text)

@@ -327,7 +327,7 @@ async function handleLogin(e, explicitStudentId = null) {
     showToast(`歡迎回來，${data.user.name}！`, "success");
     if (resumeCourseSignIn()) return;
     if (!state.studentDestination) {
-      const target = new URL("https://sdgs-attendance-record.vercel.app/sso/login");
+      const target = new URL("https://sdgs-attendance-record-prd.vercel.app/sso/login");
       target.searchParams.set("academic_year_id", payload.academic_year_id);
       location.replace(target.href);
       return;
@@ -2948,7 +2948,7 @@ function resumeCourseSignIn() {
   const url = new URL(destination, location.origin);
   if (url.origin !== location.origin || url.pathname !== "/sso/authorize") return false;
   const query = url.searchParams;
-  const callback = "https://sdgs-attendance-record.vercel.app/auth/sso/callback";
+  const callback = "https://sdgs-attendance-record-prd.vercel.app/auth/sso/callback";
   if (query.get("client_id") !== "attendance" || query.get("redirect_uri") !== callback ||
       !/^[A-Za-z0-9_-]{43}$/.test(query.get("code_challenge") || "") ||
       !/^[A-Za-z0-9_-]{32,128}$/.test(query.get("state") || "")) {

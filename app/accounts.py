@@ -22,7 +22,7 @@ def get_accounts_db():
     if bool(url) != bool(token):
         raise RuntimeError("請同時設定 ROLE_DATABASE_URL 與 ROLE_AUTH_TOKEN")
     if url:
-        if url != "libsql://sdgs-role-permission-vinnyhuangipuregreen.aws-ap-northeast-1.turso.io":
+        if url != "libsql://sdgs-role-permission-ipuregreen-prd.aws-ap-northeast-1.turso.io":
             raise RuntimeError("帳號資料必須使用 sdgs-role-permission")
         connection = TursoConnection(url, token)
     else:

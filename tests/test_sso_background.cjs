@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const { test } = require('node:test');
 const source = fs.readFileSync(require('node:path').join(__dirname, '../app/static/js/app.js'), 'utf8');
 const handler = source.slice(source.indexOf('function resumeCourseSignIn()'));
-const callback = 'https://sdgs-attendance-record.vercel.app/auth/sso/callback';
+const callback = 'https://sdgs-attendance-record-prd.vercel.app/auth/sso/callback';
 
 test('SSO initialization never switches to the homepage or loads unrelated data', async () => {
   let initialize;
@@ -19,7 +19,7 @@ test('SSO initialization never switches to the homepage or loads unrelated data'
 
 function setup({ token = 'existing-token', staff = false, status = 200, redirect = callback } = {}) {
   const query = new URLSearchParams({ client_id: 'attendance', redirect_uri: redirect, state: 's'.repeat(43), code_challenge: 'c'.repeat(43), login_type: staff ? 'staff' : 'student' });
-  const url = new URL('https://sdgs-action-platform.vercel.app/sso/authorize?' + query);
+  const url = new URL('https://sdgs-action-platform-prd.vercel.app/sso/authorize?' + query);
   const events = [];
   const state = { token, user: null };
   const context = vm.createContext({

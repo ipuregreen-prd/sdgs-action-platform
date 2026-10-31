@@ -88,7 +88,7 @@ class AcademicYearTests(unittest.TestCase):
         switched=self.client.post(f'/api/auth/academic-year/{new_id}',headers=self.student)
         self.assertEqual(switched.status_code,200,switched.text)
         verifier='a'*43
-        client={'client_id':'attendance','redirect_uri':'https://sdgs-attendance-record.vercel.app/auth/sso/callback'}
+        client={'client_id':'attendance','redirect_uri':'https://sdgs-attendance-record-prd.vercel.app/auth/sso/callback'}
         challenge=base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).decode().rstrip('=')
         issued=self.client.post('/api/auth/sso/ticket',headers={'Authorization':'Bearer '+switched.json()['token']},json={**client,'code_challenge':challenge})
         self.assertEqual(issued.status_code,200,issued.text)

@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 import sqlite3
 import sys
 from pathlib import Path
@@ -54,12 +55,17 @@ def save_backup(path, data):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("phase", choices=("snapshot", "copy", "verify", "finalize", "unfreeze"))
-    parser.add_argument("--credentials", type=Path, required=True)
+    parser.add_argument("--credentials", type=Path, help="Optional override; defaults to the application database settings")
     parser.add_argument("--backup", type=Path, required=True)
     args = parser.parse_args()
-    secrets = json.loads(args.credentials.read_text(encoding="utf-8-sig"))
-    expected = {"source": "libsql://sdgs-action-platform-vinnyhuangipuregreen.aws-ap-northeast-1.turso.io",
-                "target": "libsql://sdgs-role-permission-vinnyhuangipuregreen.aws-ap-northeast-1.turso.io"}
+    secrets = json.loads(args.credentials.read_text(encoding="utf-8-sig")) if args.credentials else {
+        "source_url": os.getenv("TURSO_DATABASE_URL", ""),
+        "source_token": os.getenv("TURSO_AUTH_TOKEN", ""),
+        "target_url": os.getenv("ROLE_DATABASE_URL", ""),
+        "target_token": os.getenv("ROLE_AUTH_TOKEN", ""),
+    }
+    expected = {"source": "libsql://sdgs-action-platform-ipuregreen-prd.aws-ap-northeast-1.turso.io",
+                "target": "libsql://sdgs-role-permission-ipuregreen-prd.aws-ap-northeast-1.turso.io"}
     for key in expected:
         if secrets[key + "_url"] != expected[key]:
             raise RuntimeError("拒絕對非指定的資料庫進行搬移")

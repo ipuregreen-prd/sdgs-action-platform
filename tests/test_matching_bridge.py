@@ -48,7 +48,7 @@ class MatchingBridgeTests(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.content, response.content)
         self.assertIn("records.csv", result.headers["content-disposition"])
-        self.assertEqual(upstream.call_args.args[1], "https://sdgs-matching-game.vercel.app/api/admin/export/csv")
+        self.assertEqual(upstream.call_args.args[1], "https://sdgs-matching-game-prd.vercel.app/api/admin/export/csv")
         self.assertEqual(upstream.call_args.kwargs["headers"]["Authorization"], "Bearer platform:" + self.token)
         self.assertEqual(upstream.call_args.kwargs["params"], [("mode", "standard")])
 

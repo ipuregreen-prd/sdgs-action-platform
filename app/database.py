@@ -4,6 +4,9 @@ import sqlite3
 import requests
 from contextlib import contextmanager
 from typing import Optional, List, Dict, Any
+from app.database_config import load_database_config
+
+load_database_config()
 
 # ==============================================================================
 # Turso / LibSQL HTTP Client for Remote Permanent SQLite Cloud Database

@@ -31,7 +31,7 @@ function setup({destination = null, sso = false, ok = true, multiple = false} = 
 test('default student login starts attendance SSO with the selected academic year before loading catalogs', async () => {
   const {context, events} = setup();
   await context.handleLogin();
-  assert.deepEqual(events.find(event => event[0] === 'redirect'), ['redirect', 'https://sdgs-attendance-record.vercel.app/sso/login?academic_year_id=7']);
+  assert.deepEqual(events.find(event => event[0] === 'redirect'), ['redirect', 'https://sdgs-attendance-record-prd.vercel.app/sso/login?academic_year_id=7']);
   assert.equal(events.some(event => event[0] === 'catalog'), false);
   assert.equal(context.state.token, 'test-token');
 });
@@ -52,7 +52,7 @@ test('the homepage login and account-switch button clears the old destination be
   context.handleLogout();
   assert.equal(context.state.studentDestination, null);
   await context.handleLogin();
-  assert.deepEqual(events.find(event => event[0] === 'redirect'), ['redirect', 'https://sdgs-attendance-record.vercel.app/sso/login?academic_year_id=7']);
+  assert.deepEqual(events.find(event => event[0] === 'redirect'), ['redirect', 'https://sdgs-attendance-record-prd.vercel.app/sso/login?academic_year_id=7']);
 });
 
 test('worksheet and NSP login retain the requested destination', async () => {

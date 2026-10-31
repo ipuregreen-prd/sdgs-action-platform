@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from app.accounts import get_accounts_db
 from app.auth import create_access_token, get_account_type
 
-CALLBACK = "https://sdgs-attendance-record.vercel.app/auth/sso/callback"
+CALLBACK = "https://sdgs-attendance-record-prd.vercel.app/auth/sso/callback"
 _SCHEMA_READY = set()
 _SCHEMA_LOCK = Lock()
 
