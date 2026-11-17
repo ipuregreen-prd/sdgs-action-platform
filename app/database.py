@@ -5,6 +5,7 @@ import requests
 from contextlib import contextmanager
 from typing import Optional, List, Dict, Any
 from app.database_config import load_database_config
+from app.database_http import post_pipeline
 
 load_database_config()
 
@@ -73,15 +74,8 @@ class TursoCursor:
             ]
         }
 
-        res = requests.post(
-            f"{self.client.base_url}/v2/pipeline",
-            headers={
-                "Authorization": f"Bearer {self.client.auth_token}",
-                "Content-Type": "application/json"
-            },
-            json=payload,
-            timeout=15
-        )
+        res = post_pipeline(self.client.base_url, self.client.auth_token, payload,
+            read_only=sql.lstrip().upper().startswith("SELECT "))
         if not res.ok:
             raise Exception(f"Turso HTTP error {res.status_code}: {res.text}")
 
@@ -307,6 +301,8 @@ _DB_INITIALIZED = False
 
 def init_db():
     global _DB_INITIALIZED
+    if os.getenv("VERCEL") and os.getenv("SDGS_RUN_MIGRATIONS") != "1":
+        return
     if _DB_INITIALIZED:
         return
     from app.accounts import accounts_separated
