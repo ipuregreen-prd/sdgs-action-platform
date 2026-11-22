@@ -63,14 +63,21 @@ test('title, instructor, category, no matches and favorites still filter the cou
   assert.doesNotMatch(controls.nspCourseGrid.innerHTML, /ESG報告/);
 });
 
-test('same-session catalog reload retains user search; switching accounts clears it', async () => {
+test('every catalog entry clears the previous query, including names and login accounts', async () => {
   const {context, controls} = setup();
   await context.window.NSP.load();
   controls.nspSearch.value = '森林';
   controls.nspSearch.input({target: controls.nspSearch});
   await context.window.NSP.load();
-  assert.equal(controls.nspSearch.value, '森林');
-  assert.doesNotMatch(controls.nspCourseGrid.innerHTML, /ESG報告/);
+  assert.equal(controls.nspSearch.value, '');
+  assert.match(controls.nspCourseGrid.innerHTML, /ESG報告/);
+  for (const value of ['黃麗月', 'learner@example.invalid']) {
+    controls.nspSearch.value = value;
+    controls.nspSearch.input({target: controls.nspSearch});
+    await context.window.NSP.load();
+    assert.equal(controls.nspSearch.value, '');
+    assert.match(controls.nspCourseGrid.innerHTML, /森林復育/);
+  }
   context.state.token = 'account-two';
   await context.window.NSP.load();
   assert.equal(controls.nspSearch.value, '');
